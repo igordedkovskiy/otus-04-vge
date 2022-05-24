@@ -1,16 +1,50 @@
+#include <iostream>
 #include "file.hpp"
 
 namespace vge_model
 {
-    
-Document read(const string& name)
+
+namespace
 {
-    ;
+
+Document read_svg(const std::string& name)
+{
+    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    return Document{};
 }
 
-void write(const string& name, Document& doc)
+Document read_wmf(const std::string& name)
 {
-    ;
+    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    return Document{};
+}
+
+void write_svg(const std::string& name, Document& doc)
+{
+    std::cout << __PRETTY_FUNCTION__ << std::endl;
+}
+
+void write_wmf(const std::string& name, Document& doc)
+{
+    std::cout << __PRETTY_FUNCTION__ << std::endl;
+}
+
+}
+    
+Document read(FileFormat fmt, const std::string& name)
+{
+    if(fmt == FileFormat::svg)
+        return read_svg(name);
+    else if(fmt == FileFormat::wmf)
+        return read_wmf(name);
+}
+
+void write(FileFormat fmt, const std::string& name, Document& doc)
+{
+    if(fmt == FileFormat::svg)
+        return write_svg(name, doc);
+    else if(fmt == FileFormat::wmf)
+        return write_wmf(name, doc);
 }
 
 }

@@ -6,9 +6,19 @@
 
 namespace vge_model
 {
+
+enum class FileFormat
+{
+    svg,
+    wmf,
+    eps,
+    pdf,
+    cdr,
+    ai
+};
     
-Document read(const string& name);
-void write(const string& name, Document& doc);
+Document read(FileFormat fmt, const std::string& name);
+void write(FileFormat fmt, const std::string& name, Document& doc);
 
 //class File
 //{
