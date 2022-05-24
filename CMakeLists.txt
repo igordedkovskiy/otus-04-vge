@@ -7,9 +7,14 @@ project(vge VERSION ${PROJECT_VERSION})
 
 configure_file(version.h.in version.h)
 
-add_library(${PROJECT_NAME} SHARED
+add_executable(${PROJECT_NAME}
+    "main.cpp"
     "model.hpp"
     "model.cpp"
+    "gui.hpp"
+    "gui.cpp"
+    "view.hpp"
+    "view.cpp"
     "controller.hpp"
     "controller.cpp"
     "file.hpp"
