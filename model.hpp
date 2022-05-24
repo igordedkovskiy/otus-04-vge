@@ -11,11 +11,12 @@ namespace vge_model
 class Shape
 {
 public:
+    using shape_id_t = unsigned long long;
     using point_id_t = unsigned int;
     using point_coord_t = std::pair<double, double>;
     using points_t = std::unordered_map<point_id_t, point_coord_t>;
 
-    Shape();
+    Shape(shape_id_t id);
     Shape(const Shape& sh);
     Shape(Shape&& sh);
     Shape& operator=(const Shape& sh);
@@ -26,20 +27,27 @@ public:
     virtual void choose_point(point_coord_t coord) = 0;
     virtual void change_point(point_coord_t coord) = 0;
 
+    shape_id_t id() const noexcept;
+
 protected:
+    shape_id_t m_id = 0;
     point_id_t m_current_point;
     points_t m_points;
 };
 
-class Document
+class Model
 {
 public:
+    using shape_id_t = Shape::point_id_t;
+
     Shape* add_shape(std::unique_ptr<Shape> sh);
-    Shape* choose_shape(Shape* sh);
-    void remove_shape(Shape* sh);
+    Shape* choose_shape(shape_id_t id);
+    void remove_shape(shape_id_t id);
+
 private:
     Shape* m_cur_shape = nullptr;
-    std::vector<std::unique_ptr<Shape>> m_shapes;
+//    std::vector<std::unique_ptr<Shape>> m_shapes;
+    std::unordered_map<shape_id_t, std::unique_ptr<Shape>> m_shapes;
 };
 
 class Line: public Shape

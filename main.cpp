@@ -1,12 +1,13 @@
+#include <memory>
 #include "model.hpp"
 #include "view.hpp"
 #include "controller.hpp"
 
 int main()
 {
-    vge_model::Document doc;
-    vge_view::View view{std::make_unique<vge_gui::ClassicView>()};
-    vge_gui::MainWindow mwindow;
-    vge_controller::Controller controller{doc, view};
+    auto mod = std::make_unique<vge_model::Model>();
+    auto view = std::make_unique<vge_view::View>();
+    vge_controller::Controller controller{std::move(mod),std::move(view)};
+    controller.show();
     return 0;
 }

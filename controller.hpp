@@ -16,17 +16,21 @@ namespace vge_controller
 class Controller: public vge_gui::Observer, public vge_gui::Notifier
 {
 public:
-    Controller(vge_model::Document& mod, vge_view::View& view);
-    void update() override;
+    Controller(std::unique_ptr<vge_model::Model> mod, std::unique_ptr<vge_view::View> view);
+    void notify() override;
     void read_data(vge_model::FileFormat fmt, const std::string& name);
-    void write_data(vge_model::FileFormat fmt, const std::string& name, vge_model::Document& doc);
+    void write_data(vge_model::FileFormat fmt, const std::string& name, vge_model::Model& doc);
+
+    void show();
 
 private:
-    // controller
-    vge_gui::MainWindow m_window;
+    std::unique_ptr<vge_gui::ViewType> m_view_type;
 
-    vge_model::Document& m_model;
-    vge_view::View& m_view;
+    // controller
+    vge_gui::MainWindow m_mwindow;
+
+    std::unique_ptr<vge_model::Model> m_model;
+    std::unique_ptr<vge_view::View> m_view;
 };
 
 }

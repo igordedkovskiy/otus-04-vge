@@ -3,6 +3,6 @@
 namespace vge_model
 {
 
-
+Shape::~Shape(){}
 
 }

@@ -9,11 +9,11 @@
 namespace vge_view
 {
 
-//using Observer = vge_gui::Observer;
-//using Notifier = vge_gui::Notifier;
+using Observer = vge_gui::Observer;
+using Notifier = vge_gui::Notifier;
 using MouseEvent = vge_gui::MouseEvent;
 
-class Object: public vge_gui::Observer, public vge_gui::Notifier
+class Object: public Observer, public Notifier
 {
 public:
     virtual ~Object() = 0;
@@ -46,7 +46,7 @@ public:
     void on_mouse_move() override;
     void on_mouse_press() override;
 
-    void update() override;
+    void notify() override;
 
     void draw(const vge_gui::ViewType* vt) override;
     void add_point(point_coord_t coord) override;
@@ -60,7 +60,7 @@ public:
     void on_mouse_move() override;
     void on_mouse_press() override;
 
-    void update() override;
+    void notify() override;
 
     void draw(const vge_gui::ViewType* vt) override;
     void add_point(point_coord_t coord) override;
@@ -71,13 +71,12 @@ class View
 {
 public:
     using ViewType = vge_gui::ViewType;
-    View(std::unique_ptr<ViewType> vt);
-    void draw();
+    View() = default;
+    void draw(ViewType* vt);
     void add(Shape* sh);
     void remove(Shape* sh);
     Shape* get_shape();
 private:
-    std::unique_ptr<ViewType> vt;
     std::vector<std::unique_ptr<Shape>> m_shapes;
 };
 
