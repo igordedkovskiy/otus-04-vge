@@ -18,3 +18,5 @@ private:
     vge_model::Document m_doc;
     vge_gui::MainWindow m_window;
 };
+
+}
