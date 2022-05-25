@@ -28,11 +28,11 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     target_compile_options(${PROJECT_NAME} PRIVATE
-        /W4 /await
+        /W4
     )
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     target_compile_options(${PROJECT_NAME} PRIVATE
-        "-Wall" "-Wextra" "-Werror" "-pedantic" "-fcoroutines"
+        "-Wall" "-Wextra" "-Werror" "-pedantic"
     )
 endif()
 
