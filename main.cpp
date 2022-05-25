@@ -7,7 +7,7 @@ int main()
 {
     auto mod = std::make_unique<vge_model::Model>();
     auto view = std::make_unique<vge_view::View>();
-    vge_controller::Controller controller{std::move(mod),std::move(view)};
+    vge_controller::MainWindow controller{std::move(mod), std::move(view)};
     controller.show();
     return 0;
 }
