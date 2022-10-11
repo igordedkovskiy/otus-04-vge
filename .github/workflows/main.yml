@@ -1,0 +1,70 @@
+name: 'vector-graphics-editor'
+
+on:
+  push:
+    branches:
+      - main
+      - feature/github_actions
+      
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: cmake -S . -B ./Release -DPATCH_VERSION=${{ github.run_number }} -DWITH_GTEST=ON
+      - run: cmake --build ./Release
+      - run: cmake --build ./Release --target package
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./Release/vge-0.0.${{ github.run_number }}-Linux.deb
+          asset_name: vge-0.0.${{ github.run_number }}-Linux.deb
+          asset_content_type: application/vnd.debian.binary-package
+  generate-docs:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        #    uses: DenverCoder1/doxygen-github-pages-action@v1
+        #    with:
+        #        branch: gh-pages
+        #        folder: html
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: git checkout --orphan gh-pages
+      - run: git config user.name "Igor Dedkovskiy"
+      - run: git config user.email "divmy@yandex.ru"
+      #- run: git commit -a -m "Initial commit"
+      #- run: git push --force origin gh-pages
+      #- run: git rm -rf --ignore-unmatch docs
+      #- run: mkdir docs
+      # Need to create a .nojekyll file to allow filenames starting with an underscore
+      # to be seen on the gh-pages site. Therefore creating an empty .nojekyll file.
+      # Presumably this is only needed when the SHORT_NAMES option in Doxygen is set
+      # to NO, which it is by default. So creating the file just in case.
+      - run: echo "" > .nojekyll
+      - run: sudo apt-get install doxygen -y
+      - run: sudo apt-get install graphviz
+      - run: doxygen ./docs/Doxyfile
+      - run: git add ./docs/html
+      - run: git commit -a -m "Generate docs"
+      #- run: git remote add origin https://github.com/igordedkovskiy/otus-print-ip.git 
+      - run: git push --force origin gh-pages

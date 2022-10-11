@@ -1,0 +1,6 @@
+<map id="vge_gui::Window" name="vge_gui::Window">
+<area shape="rect" id="node1" title=" " alt="" coords="42,155,175,181"/>
+<area shape="rect" id="node4" href="$classvge__controller_1_1_main_window.html" title=" " alt="" coords="5,229,212,256"/>
+<area shape="rect" id="node2" href="$classvge__gui_1_1_widget.html" title=" " alt="" coords="45,80,172,107"/>
+<area shape="rect" id="node3" href="$classvge__gui_1_1_object.html" title=" " alt="" coords="47,5,170,32"/>
+</map>
